@@ -1,5 +1,6 @@
 package com.saga.PaymentService.command.api.events;
 
+import com.saga.CommonService.events.PaymentCancelledEvent;
 import com.saga.CommonService.events.PaymentProcessedEvent;
 import com.saga.PaymentService.command.api.data.Payment;
 import com.saga.PaymentService.repository.PaymentRepository;
@@ -26,6 +27,13 @@ public class PaymentEventHandler {
                 .timeStamp(new Date())
                 .build();
 
+        paymentRepository.save(payment);
+    }
+
+    @EventHandler
+    public void on(PaymentCancelledEvent event){
+        Payment payment = paymentRepository.findById(event.getPaymentId()).get();
+        payment.setPaymentStatus(event.getPaymentStatus());
         paymentRepository.save(payment);
     }
 }

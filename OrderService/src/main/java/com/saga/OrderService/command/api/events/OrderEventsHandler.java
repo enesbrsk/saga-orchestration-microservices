@@ -1,5 +1,6 @@
 package com.saga.OrderService.command.api.events;
 
+import com.saga.CommonService.events.OrderCancelledEvent;
 import com.saga.CommonService.events.OrderCompletedEvent;
 import com.saga.OrderService.command.api.data.Order;
 import com.saga.OrderService.command.api.repository.OrderRepository;
@@ -35,5 +36,12 @@ public class OrderEventsHandler {
         orderRepository.save(order);
     }
 
+    @EventHandler
+    public void on(OrderCancelledEvent event){
+
+        Order order = orderRepository.findById(event.getOrderId()).get();
+        order.setOrderStatus(event.getOrderStatus());
+        orderRepository.save(order);
+    }
 
 }
