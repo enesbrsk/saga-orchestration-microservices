@@ -7,12 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CommonService" />
         <module name="ShipmentService" />
+        <module name="CommonService" />
         <module name="OrderService" />
         <module name="UserService" />
-        <module name="PaymentService" />
         <module name="ProductService" />
+        <module name="PaymentService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

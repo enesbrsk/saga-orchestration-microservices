@@ -1,6 +1,8 @@
 package com.saga.OrderService.command.api.aggregate;
 
+import com.saga.CommonService.commands.CancelOrderCommand;
 import com.saga.CommonService.commands.CompleteOrderCommand;
+import com.saga.CommonService.events.OrderCancelledEvent;
 import com.saga.CommonService.events.OrderCompletedEvent;
 import com.saga.OrderService.command.api.command.CreateOrderCommand;
 import com.saga.OrderService.command.api.events.OrderCreatedEvent;
@@ -60,6 +62,20 @@ public class OrderAggregate {
     @EventSourcingHandler
     public void on(OrderCompletedEvent event) {
         this.orderStatus = event.getOrderStatus();
+    }
+
+    @CommandHandler
+    public void handle(CancelOrderCommand cancelOrderCommand){
+        OrderCancelledEvent orderCancelledEvent =
+                new OrderCancelledEvent();
+        BeanUtils.copyProperties(cancelOrderCommand,orderCancelledEvent);
+        AggregateLifecycle.apply(orderCancelledEvent);
+    }
+
+    @EventSourcingHandler
+    public void on(OrderCancelledEvent event){
+        this.orderStatus = event.getOrderStatus();
+        this.orderId = event.getOrderId();
     }
 
 }

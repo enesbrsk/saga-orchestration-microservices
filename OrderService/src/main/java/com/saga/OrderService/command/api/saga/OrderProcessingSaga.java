@@ -31,7 +31,6 @@ public class OrderProcessingSaga {
     @Autowired
     private transient QueryGateway queryGateway;
 
-
     public OrderProcessingSaga() {
     }
 
@@ -88,7 +87,12 @@ public class OrderProcessingSaga {
         } catch (Exception e) {
             log.error(e.getMessage());
             // Start the compensating transaction
+            cancelOrderCommand(event.getOrderId());
         }
+    }
+
+    private void cancelOrderCommand(String orderId) {
+
     }
 
 
@@ -113,5 +117,7 @@ public class OrderProcessingSaga {
         log.info("OrderCompletedEvent in Saga for Order Id : {}",
                 event.getOrderId());
     }
+
+
 
 }
